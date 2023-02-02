@@ -4,11 +4,19 @@ import Formfield from '../components/Formfield'
 import Card from '../components/Card'
 import Loader from '../components/Loader'
 
+const RenderCards = ({data , title}) => { //this is a generic functional component with 2 props accepted -> data and title 
+    if(data.length > 0){ //*
+        return data.map((post)=> <Card key={post._id} {...post}/>) //loop over the data array and render all cards while passing all the post data to each card  
+    }else{
+        return <h2 className='mt-5'>{title}</h2>
+    }
+}
+ 
 const Home = () => {
 
     const [loading , setLoading] = useState(false);
     const [allPosts , setAllPosts] = useState(null);
-    const [searchText , setSearchText] = useState('abc');
+    const [searchText , setSearchText] = useState('');
 
   return (
     <section>
@@ -31,8 +39,19 @@ const Home = () => {
                     {searchText && (
                         <h2>Showing results for <span>{searchText}</span></h2>
                     )}
-                    <div className='grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3'>
 
+                    <div className='grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3'>
+                        {searchText ? ( //if searchText exits we want to render the cards and pass the data to it ,1)data = searched results in the first case and , 2)data = all the results in the else case 
+                            <RenderCards //normal react functional component is called with these props
+                                data = {[]} //posts related to the searched thing 
+                                title = "Searched results not found" //this will have a title 
+                            />
+                        ) : ( //this is the else case , i.e if the searched text is not there
+                            <RenderCards
+                                data = {[]} //all the posts will be rendered , like all the nfts are rendered in the marketplace 
+                                title = "No posts found"
+                            />
+                        )}
                     </div>
                 </>
             )}
