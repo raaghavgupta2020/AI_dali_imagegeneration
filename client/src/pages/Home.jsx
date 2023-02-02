@@ -26,7 +26,7 @@ const Home = () => {
         </div>
 
         <div className='mt-16'>
-            <Formfield/>
+            {/* <Formfield/> */}
         </div>
 
         <div className='mt-10'>
