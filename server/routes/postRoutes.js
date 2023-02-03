@@ -43,7 +43,7 @@ router.route('/').post(async (req,res)=>{
             photo: photoUrl.url //we are basically saving the url of the photo uploaded in the cloudinary , instead of storing the photo in b64_json format , beacuse it is a much more scalable approach
         })
 
-        res.status(201).json({success: true , data: newPost}); //sending newPost as data 
+        res.status(200).json({success: true , data: newPost}); //sending newPost as data 
         //we have to put everything in a try catch block
     } catch (error) {
         res.status(500).json({success: false , message: 'Unable to create a post , try again'})
