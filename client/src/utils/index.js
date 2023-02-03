@@ -1,5 +1,7 @@
 //uitls or utiltiy functions file contains those functions which you can re-use anythime in your application
 
+import FileSaver from 'file-saver';
+
 import {surpriseMePrompts} from "../constants/index"
 
 export function getRandomPrompt(prompt){ //this is the last prompt , we have passed this to make sure that the new prompt does not again come out same as the previous one 
@@ -12,4 +14,9 @@ export function getRandomPrompt(prompt){ //this is the last prompt , we have pas
     }
 
     return randomPrompt;
+}
+
+//this is the way to use the FileSaver library
+export async function downloadImage(_id , photo){
+    FileSaver.saveAs(photo , `download-${_id}.jpeg`);
 }

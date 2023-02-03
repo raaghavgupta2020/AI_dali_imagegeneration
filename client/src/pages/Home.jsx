@@ -5,7 +5,7 @@ import Card from '../components/Card'
 import Loader from '../components/Loader'
 
 const RenderCards = ({data , title}) => { //this is a generic functional component with 2 props accepted -> data and title 
-    if(data.length > 0){ //*
+    if(data?.length > 0){ //*
         return data.map((post)=> <Card key={post._id} {...post}/>) //loop over the data array and render all cards while passing all the post data to each card  
     }else{
         return <h2 className='mt-5'>{title}</h2>
@@ -17,6 +17,33 @@ const Home = () => {
     const [loading , setLoading] = useState(false);
     const [allPosts , setAllPosts] = useState(null);
     const [searchText , setSearchText] = useState('');
+
+    //we have to check if there are posts or not , we will use useEffect hook , it will run when the component starts 
+    useEffect(()=>{
+        const fetchPosts = async () => {
+            setLoading(true);
+                
+            try {
+                const response  = await fetch('http://localhost:8080/api/v1/post' , {
+                    method: 'GET',
+                    headers:{
+                        'Content-Type': 'application/json',
+                    },
+                })
+
+                if(response.ok){//****//
+                    const result = await response.json();
+                    setAllPosts(result.data.reverse()); //this is beacuse we want to show the newest post first 
+                }
+            } 
+            catch (error) {
+                alert(error)
+            }finally{
+                setLoading(false);
+            }
+        }
+        fetchPosts();
+    } , []);
 
   return (
     <section>
@@ -48,7 +75,7 @@ const Home = () => {
                             />
                         ) : ( //this is the else case , i.e if the searched text is not there
                             <RenderCards
-                                data = {[]} //all the posts will be rendered , like all the nfts are rendered in the marketplace 
+                                data = {allPosts} //all the posts will be rendered , like all the nfts are rendered in the marketplace 
                                 title = "No posts found"
                             />
                         )}

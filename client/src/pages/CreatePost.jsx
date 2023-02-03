@@ -47,8 +47,35 @@ const CreatePost = () => {
         }
     }
     
-    const handleSubmit = () => {
-    
+    const handleSubmit = async (e) => {
+        e.preventDefault(); //prevents browser from automatically reloading our application 
+        
+        if(form.prompt && form.photo){
+            setLoading(true)
+
+            try {
+                const response = await fetch('http://localhost:8080/api/v1/post' , {
+                    method:'POST',
+                    headers:{
+                        'Content-Type' : 'application/json',
+                    },
+                    body: JSON.stringify(form)
+                })
+
+                await response.json();
+                navigate('/')
+
+            } catch (error) {
+                alert(error);
+            }finally{
+                setLoading(false);
+            }
+            //now this entire thing is responsible for -> sending entire form data to post routes , there all the data will be saved into the schenma that we have created 
+            //now on the home page we have to make a call to the database to get all that saved data , that will be done by useEffect hook
+
+        }else{
+            alert("Please enter a prompt and generate an image")
+        }
     }
     
     const handleChange = (e) => {
