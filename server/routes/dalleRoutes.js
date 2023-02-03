@@ -17,9 +17,9 @@ const openai = new OpenAIApi(configuration);
 
 //we can create a demo route for testing the route
 //**THIS IS A DEMO ROUTE **//
-router.route('/').get((req,res)=>{
-    res.send("Hello !!! from DALL-E");
-})
+// router.route('/').get((req,res)=>{
+//     res.send("Hello !!! from DALL-E");
+// })
 
 //NOW WE HAVE TO MAKE THE ACTUAL ROUTE , WHICH WILL ACTUALLY CONTACT THE OPEN AI API
 router.route('/').post(async (req,res)=>{
@@ -29,7 +29,7 @@ router.route('/').post(async (req,res)=>{
         const aiResponse = await openai.createImage({
             prompt,
             n:1,
-            size:1024*1024,
+            size:'1024x1024', //here the x is really important 
             response_format:'b64_json',
         })
 
