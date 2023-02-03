@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { preview } from '../assets'
 import Formfield from '../components/Formfield'
 import Loader from '../components/Loader'
-import { getRandomPrompt } from '../utils' //we have created this function , and now we can import it here , everytime we call it , it will give us a new random prompt 
+import { getRandomPrompt } from '../utils' 
+//we have created this function , and now we can import it here , everytime we call it , it will give us a new random prompt 
 
 
 const CreatePost = () => {
@@ -59,7 +60,7 @@ const CreatePost = () => {
                     headers:{
                         'Content-Type' : 'application/json',
                     },
-                    body: JSON.stringify(form)
+                    body: JSON.stringify(form),
                 })
 
                 await response.json();

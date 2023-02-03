@@ -1,14 +1,14 @@
 import React from 'react'
 import { useState ,useEffect } from 'react'
-import Formfield from '../components/Formfield'
+// import Formfield from '../components/Formfield'
 import Card from '../components/Card'
 import Loader from '../components/Loader'
 
 const RenderCards = ({data , title}) => { //this is a generic functional component with 2 props accepted -> data and title 
     if(data?.length > 0){ //*
-        return data.map((post)=> <Card key={post._id} {...post}/>) //loop over the data array and render all cards while passing all the post data to each card  
+        return (data.map((post)=> <Card key={post._id} {...post}/>)) //loop over the data array and render all cards while passing all the post data to each card  
     }else{
-        return <h2 className='mt-5'>{title}</h2>
+        return (<h2 className='mt-5'>{title}</h2>)
     }
 }
  
@@ -19,29 +19,31 @@ const Home = () => {
     const [searchText , setSearchText] = useState('');
 
     //we have to check if there are posts or not , we will use useEffect hook , it will run when the component starts 
-    useEffect(()=>{
-        const fetchPosts = async () => {
-            setLoading(true);
-                
-            try {
-                const response  = await fetch('http://localhost:8080/api/v1/post' , {
-                    method: 'GET',
-                    headers:{
-                        'Content-Type': 'application/json',
-                    },
-                })
 
-                if(response.ok){//****//
-                    const result = await response.json();
-                    setAllPosts(result.data.reverse()); //this is beacuse we want to show the newest post first 
-                }
-            } 
-            catch (error) {
-                alert(error)
-            }finally{
-                setLoading(false);
+    const fetchPosts = async () => {
+        setLoading(true);
+            
+        try {
+            const response  = await fetch('http://localhost:8080/api/v1/post' , {
+                method: 'GET',
+                headers:{
+                    'Content-Type': 'application/json',
+                },
+            })
+
+            if(response.ok){//****//
+                const result = await response.json();
+                setAllPosts(result.data.reverse()); //this is beacuse we want to show the newest post first 
             }
+        } 
+        catch (error) {
+            alert(error)
+        }finally{
+            setLoading(false);
         }
+    }
+    
+    useEffect(()=>{
         fetchPosts();
     } , []);
 
@@ -58,7 +60,7 @@ const Home = () => {
 
         <div className='mt-10'>
             {loading ? (
-                <div className='flec justify-center items-center'>
+                <div className='flex justify-center items-center'>
                     <Loader/>
                 </div>
             ) : (

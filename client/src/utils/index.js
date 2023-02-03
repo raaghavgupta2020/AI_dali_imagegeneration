@@ -18,5 +18,5 @@ export function getRandomPrompt(prompt){ //this is the last prompt , we have pas
 
 //this is the way to use the FileSaver library
 export async function downloadImage(_id , photo){
-    FileSaver.saveAs(photo , `download-${_id}.jpeg`);
+    FileSaver.saveAs(photo , `download-${_id}.jpg`);
 }

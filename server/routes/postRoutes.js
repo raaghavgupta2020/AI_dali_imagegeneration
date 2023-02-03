@@ -2,7 +2,9 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import {v2 as cloudinary} from 'cloudinary';
-import Post from '../mongodb/models/post.js';
+
+// import Post from '../mongodb/models/post.js';
+import Post from '../mongodb/models/post.js'
 
 dotenv.config(); //to make sure that our environment variables are getting populated 
 
@@ -24,12 +26,12 @@ router.route('/').get(async(req,res)=>{
         const posts = await Post.find({})
         res.status(200).json({success:true , data:posts});
     } catch (error) {
-        res.status(500).json({success:false , message:error});
+        res.status(500).json({success:false , message:'fetching posts failed , try again'});
     }
 })
 
 // //2)CREATE A POST 
-router.route('/').post(async(req,res)=>{
+router.route('/').post(async (req,res)=>{
     try {
         const {name , prompt , photo} = req.body; //we are sending this from the frontend 
         const photoUrl = await cloudinary.uploader.upload(photo);//basically uploading the photo to cloudinary
@@ -44,7 +46,7 @@ router.route('/').post(async(req,res)=>{
         res.status(201).json({success: true , data: newPost}); //sending newPost as data 
         //we have to put everything in a try catch block
     } catch (error) {
-        res.status(500).json({success: false , message: error})
+        res.status(500).json({success: false , message: 'Unable to create a post , try again'})
     }
 })
 
